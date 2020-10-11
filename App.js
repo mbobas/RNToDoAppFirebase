@@ -15,7 +15,10 @@ export default class Aoo extends React.Component {
     this.setState({ addTodoVisable: !this.state.addTodoVisable });
   }
 
-  
+  renderList = list => {
+    return <TodoList list={list}/>
+  }
+
 
   render() {
     return (
@@ -48,7 +51,7 @@ export default class Aoo extends React.Component {
               keyExtractor={item => item.name} 
               horizontal={true} 
               showsHorizontalScrollIndicator={false}
-              renderItem={({item})=> <TodoList list={item} />}  
+              renderItem={({item})=> this.renderList(item)}  
             />
         </View>
       </View>
