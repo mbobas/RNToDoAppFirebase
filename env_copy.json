@@ -1,0 +1,13 @@
+//update this file before using
+//config of firebas is able on firbese console
+//crete a WebProcet and cloudfire database. 
+
+{
+  "apiKey": "",
+  "authDomain": "",
+  "databaseURL": "",
+  "projectId": "",
+  "storageBucket": "",
+  "messagingSenderId": "",
+  "appId": ""
+}
