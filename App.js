@@ -8,16 +8,29 @@ import AddListModal from './components/AddListModal';
 
 export default class Aoo extends React.Component {
   state = {
-    addTodoVisable: false
-  }
+    addTodoVisible: false,
+    lists: tempData
+  };
 
   toggleAddtodoModal() {
-    this.setState({ addTodoVisable: !this.state.addTodoVisable });
+    this.setState({ addTodoVisible: !this.state.addTodoVisible });
   }
 
   renderList = list => {
-    return <TodoList list={list}/>
-  }
+    return <TodoList list={list} updateList={this.updateList}/>;
+  };
+
+  addList = list => {
+    this.setState({lists: [...this.state.lists, {...list, id: this.state.lists.length + 1, todos: [] }] });
+  };
+
+  updateList = list => {
+    this.setState({
+      list: this.state.lists.map(item=> {
+        return item.id === list.id ? list : item;
+      })
+    });
+  };
 
 
   render() {
@@ -25,10 +38,10 @@ export default class Aoo extends React.Component {
       <View style={styles.container}>
         <Modal 
           animationType="slide" 
-          visible={this.state.addTodoVisable} 
+          visible={this.state.addTodoVisible} 
           onRequestClose={() => this.toggleAddtodoModal()}
         >
-          <AddListModal closeModal={() => this.toggleAddtodoModal()} />
+          <AddListModal closeModal={() => this.toggleAddtodoModal()} addList={this.addList}/>
         </Modal>
         <View style={{flexDirection: "row"}}>
           <View style={styles.divider} />
@@ -47,7 +60,7 @@ export default class Aoo extends React.Component {
         </View>
         <View style={{height: 275, paddingLeft: 32}}>
             <FlatList 
-              data={tempData} 
+              data={this.state.lists} 
               keyExtractor={item => item.name} 
               horizontal={true} 
               showsHorizontalScrollIndicator={false}
