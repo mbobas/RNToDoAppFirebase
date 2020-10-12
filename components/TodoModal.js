@@ -22,7 +22,15 @@ export default class TodoModal extends React.Component {
         list.todos[index].completed = !list.todos[index].completed
 
         this.props.updateList(list);
-    }
+    };
+
+    addTodo = () => {
+        let list = this.props.list
+        list.todos.push({title: this.state.newTodo, completed: false})
+
+        this.props.updateList(list)
+        this.setState({newTodo: ""})
+    };
 
     renderTodo = (todo, index) => {
         return (
@@ -87,8 +95,12 @@ export default class TodoModal extends React.Component {
                 <View 
                     style={[styles.section, styles.footer]}
                 >
-                    <TextInput style={[styles.input, {borderColor: list.color}]} />
-                    <TouchableOpacity style={[styles.addTodo, {backgroundColor: list.color}]}>
+                    <TextInput 
+                        style={[styles.input, {borderColor: list.color}]} 
+                        onChangeText={text => this.setState({newTodo: text})} 
+                        value={this.state.newTodo}
+                    />
+                    <TouchableOpacity style={[styles.addTodo, {backgroundColor: list.color}]} onPress={() => this.addTodo()}>
                         <AntDesign name="plus" size={16} color={Colors.white} />
                     </TouchableOpacity>
                 </View>

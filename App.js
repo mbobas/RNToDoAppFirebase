@@ -65,6 +65,7 @@ export default class Aoo extends React.Component {
               horizontal={true} 
               showsHorizontalScrollIndicator={false}
               renderItem={({item})=> this.renderList(item)}  
+              keyboardShouldPersistTaps="always"
             />
         </View>
       </View>
