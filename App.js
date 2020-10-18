@@ -84,9 +84,7 @@ export default class Aoo extends React.Component {
         >
           <AddListModal closeModal={() => this.toggleAddtodoModal()} addList={this.addList}/>
         </Modal>
-        <View>
-          <Text>User: {this.state.user.uid} </Text>
-        </View>
+        
         <View style={{flexDirection: "row"}}>
           <View style={styles.divider} />
           <Text style={styles.title}>
@@ -116,7 +114,6 @@ export default class Aoo extends React.Component {
     );
   }
 }
-
 
 const styles = StyleSheet.create({
   container: {

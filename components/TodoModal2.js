@@ -13,7 +13,7 @@ import {
 } from 'react-native';
 import {AntDesign, Ionicons} from '@expo/vector-icons';
 import Colors from '../Colors';
-//import {Swipeable} from 'react-native-gesture-handler';
+import {RectButton} from 'react-native-gesture-handler';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
 
 export default class TodoModal extends React.Component {
@@ -39,10 +39,32 @@ export default class TodoModal extends React.Component {
     };
 
 
+    renderLeftActions = (progress, dragX) => {
+        const trans = dragX.interpolate({
+          inputRange: [0, 50, 100, 101],
+          outputRange: [-20, 0, 0, 1],
+        });
+        return (
+          <RectButton style={styles.leftAction} onPress={this.close}>
+            <Animated.Text
+              style={[
+                styles.actionText,
+                {
+                  transform: [{ translateX: trans }],
+                },
+              ]}>
+              Archive
+            </Animated.Text>
+          </RectButton>
+        );
+      };
+    
+
     renderTodo = (todo, index) => {
         return (
-            <Swipeable renderRightActions={(_, dragX) => this.rightActions(dragX, index)}>
-            <View style={styles.todoContainer}>
+            <Swipeable renderLeftActions={this.renderLeftActions}>
+                <Text>"hello"</Text>
+            {/* <View style={styles.todoContainer}>
                 <TouchableOpacity onPress={() => this.toogleTodoCompleted(index)}>
                     <Ionicons 
                         name={todo.completed ? 'ios-square' : "ios-square-outline"} 
@@ -62,7 +84,7 @@ export default class TodoModal extends React.Component {
                 >
                     {todo.title}
                 </Text>
-            </View>
+            </View> */}
         </Swipeable>
         );
     };
