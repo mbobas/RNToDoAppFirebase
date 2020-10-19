@@ -13,8 +13,8 @@ import {
 } from 'react-native';
 import {AntDesign, Ionicons} from '@expo/vector-icons';
 import Colors from '../Colors';
-//import {Swipeable} from 'react-native-gesture-handler';
-import Swipeable from 'react-native-gesture-handler/Swipeable';
+import {Swipeable} from 'react-native-gesture-handler';
+//import Swipeable from 'react-native-gesture-handler/Swipeable';
 
 export default class TodoModal extends React.Component {
     state = {
@@ -38,40 +38,59 @@ export default class TodoModal extends React.Component {
         Keyboard.dismiss();
     };
 
+    deleteTodo = (index) => {
+        let list = this.props.list;
+        list.todos.splice(index, 1); // starting from position index, remove 1 item
+
+        this.props.updateList(list);
+    }
 
     renderTodo = (todo, index) => {
         return (
-            <Swipeable renderRightActions={(_, dragX) => this.rightActions(dragX, index)}>
-            <View style={styles.todoContainer}>
-                <TouchableOpacity onPress={() => this.toogleTodoCompleted(index)}>
-                    <Ionicons 
-                        name={todo.completed ? 'ios-square' : "ios-square-outline"} 
-                        size={24} 
-                        color={Colors.gray} 
-                        style={{width: 32}} 
-                    />
-                </TouchableOpacity>
+           //<Swipeable renderRightActions={(_, dragX) => this.rightActions(dragX, index)}>
+            <View>
+                <View style={styles.todoContainer}>
+                    <TouchableOpacity onPress={() => this.toogleTodoCompleted(index)}>
+                        <Ionicons 
+                            name={todo.completed ? 'ios-square' : "ios-square-outline"} 
+                            size={24} 
+                            color={Colors.gray} 
+                            style={{width: 32}} 
+                        />
+                    </TouchableOpacity>
 
-                <Text style={
-                    [styles.todo, 
-                    {
-                        textDecorationLine: todo.completed ? "line-through" : "none", 
-                        color: todo.completed ? Colors.gray : Colors.black
-                    }
-                    ]}
-                >
-                    {todo.title}
-                </Text>
+                    <Text style={
+                        [styles.todo, 
+                        {
+                            textDecorationLine: todo.completed ? "line-through" : "none", 
+                            color: todo.completed ? Colors.gray : Colors.black
+                        }
+                        ]}
+                    >
+                        {todo.title}
+                    </Text>
+                    <View style={styles.deleteBox}>
+                    <TouchableOpacity onPress={todo.completed ? (index)=>this.deleteTodo(index) : () => this.toogleTodoCompleted(index) }>
+                        <Ionicons 
+                            name={todo.completed ? 'ios-close-circle' : ''} 
+                            size={24} 
+                            color={Colors.gray} 
+                            style={{width: 32}} 
+                        />
+                    </TouchableOpacity>
+                </View>
+                </View>
             </View>
-        </Swipeable>
+       // </Swipeable>
         );
     };
 
-    rightActions = (dragX, index) => { 
+    rightActions = (index) => { 
+
         return (
-            <TouchableOpacity>
-                <Animated.View>
-                    <Animated.Text>Delete </Animated.Text>
+            <TouchableOpacity onPress={() => this.deleteTodo(index)}>
+                <Animated.View style={styles.deleteButton}>
+                    <Animated.Text> Delete </Animated.Text>
                 </Animated.View>
             </TouchableOpacity>
         );
@@ -108,7 +127,7 @@ export default class TodoModal extends React.Component {
                         data={list.todos} 
                         renderItem={({item, index }) => this.renderTodo(item, index)} 
                         keyExtractor={(_, index) => index.toString()}
-                        contentContainerStyle={{paddingHorizontal: 32, paddingVertical: 64}}
+                        //contentContainerStyle={{paddingHorizontal: 32, paddingVertical: 64}}
                         showsVerticalScrollIndicator={false}
                     />
                 </View>
@@ -138,7 +157,8 @@ const styles = StyleSheet.create({
     },
     section: {
         flex: 1,
-        alignSelf: "stretch"
+        alignSelf: "stretch",
+        paddingHorizontal: 20,
     },
     header: {
         justifyContent: 'flex-end',
@@ -177,13 +197,29 @@ const styles = StyleSheet.create({
         justifyContent: 'center'
     },
     todoContainer: {
+        //borderWidth: 1,
         paddingVertical: 16,
         flexDirection: 'row',
-        alignItems: 'center'
+        alignItems: 'center',
+        justifyContent: "space-between"
+        
     },
     todo: {
+        //borderWidth: 1,
+        flex: 1,
         color: Colors.black,
         fontWeight: "700",
         fontSize: 16
+    }, 
+    deleteButton: {
+        flex: 1,
+        backgroundColor: Colors.red,
+    },
+    deleteBox: {
+        ///justifyContent: "center",
+        //alignItems: "flex-end",
+        borderBottomColor: Colors.red,
+        borderWidth: StyleSheet.hairlineWidth,
+       
     }
 })

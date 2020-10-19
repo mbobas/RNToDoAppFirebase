@@ -15,6 +15,7 @@ import {AntDesign, Ionicons} from '@expo/vector-icons';
 import Colors from '../Colors';
 import {RectButton} from 'react-native-gesture-handler';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
+import AppSweap from '../App1';
 
 export default class TodoModal extends React.Component {
     state = {
@@ -38,6 +39,32 @@ export default class TodoModal extends React.Component {
         Keyboard.dismiss();
     };
 
+    renderTodo = (todo, index) => {
+        return (
+            
+            <View style={styles.todoContainer}>
+                <TouchableOpacity onPress={() => this.toogleTodoCompleted(index)}>
+                    <Ionicons 
+                        name={todo.completed ? 'ios-square' : "ios-square-outline"} 
+                        size={24} 
+                        color={Colors.gray} 
+                        style={{width: 32}} 
+                    />
+                </TouchableOpacity>
+
+                <Text style={
+                    [styles.todo, 
+                    {
+                        textDecorationLine: todo.completed ? "line-through" : "none", 
+                        color: todo.completed ? Colors.gray : Colors.black
+                    }
+                    ]}
+                >
+                    {todo.title}
+                </Text>
+            </View> 
+        );
+    };
 
     renderLeftActions = (progress, dragX) => {
         const trans = dragX.interpolate({
@@ -59,35 +86,6 @@ export default class TodoModal extends React.Component {
         );
       };
     
-
-    renderTodo = (todo, index) => {
-        return (
-            <Swipeable renderLeftActions={this.renderLeftActions}>
-                <Text>"hello"</Text>
-            {/* <View style={styles.todoContainer}>
-                <TouchableOpacity onPress={() => this.toogleTodoCompleted(index)}>
-                    <Ionicons 
-                        name={todo.completed ? 'ios-square' : "ios-square-outline"} 
-                        size={24} 
-                        color={Colors.gray} 
-                        style={{width: 32}} 
-                    />
-                </TouchableOpacity>
-
-                <Text style={
-                    [styles.todo, 
-                    {
-                        textDecorationLine: todo.completed ? "line-through" : "none", 
-                        color: todo.completed ? Colors.gray : Colors.black
-                    }
-                    ]}
-                >
-                    {todo.title}
-                </Text>
-            </View> */}
-        </Swipeable>
-        );
-    };
 
     rightActions = (dragX, index) => { 
         return (
@@ -124,16 +122,19 @@ export default class TodoModal extends React.Component {
                         </Text>
                     </View>
                 </View>
-
+                
                 <View style={[styles.section, {flex: 3}]}>
-                    <FlatList 
+                    { <FlatList 
                         data={list.todos} 
                         renderItem={({item, index }) => this.renderTodo(item, index)} 
                         keyExtractor={(_, index) => index.toString()}
                         contentContainerStyle={{paddingHorizontal: 32, paddingVertical: 64}}
                         showsVerticalScrollIndicator={false}
                     />
+                    }
+                     
                 </View>
+
                 <View 
                     style={[styles.section, styles.footer]}
                 >

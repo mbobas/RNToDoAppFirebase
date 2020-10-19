@@ -41,8 +41,7 @@ class AppleStyleSwipeableRow extends Component {
   }
 }
 
-
-export default class App extends React.Component {
+export default class AppSweap extends React.Component {
   
   render() {
       return ( 
