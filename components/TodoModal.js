@@ -70,7 +70,7 @@ export default class TodoModal extends React.Component {
                         {todo.title}
                     </Text>
                     <View style={styles.deleteBox}>
-                    <TouchableOpacity onPress={todo.completed ? (index)=>this.deleteTodo(index) : () => this.toogleTodoCompleted(index) }>
+                    <TouchableOpacity onPress={todo.completed ? ()=>this.deleteTodo(index) : () => this.toogleTodoCompleted(index) }>
                         <Ionicons 
                             name={todo.completed ? 'ios-close-circle' : ''} 
                             size={24} 
@@ -216,10 +216,7 @@ const styles = StyleSheet.create({
         backgroundColor: Colors.red,
     },
     deleteBox: {
-        ///justifyContent: "center",
-        //alignItems: "flex-end",
-        borderBottomColor: Colors.red,
-        borderWidth: StyleSheet.hairlineWidth,
+        
        
     }
 })
